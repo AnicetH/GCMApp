@@ -8,8 +8,11 @@ For the analyse i use NEO4J GRAPH and ALGORYTHMS.
 These topics here are as follows:
 
 1-Cleaning and wrangling datas with bigquery
+
 2-Import datas in Neo4j GraphDatabase
+
 3-Recommendation engine with cypher
+
 4-Network Analysis with graph algorithms
 
 
