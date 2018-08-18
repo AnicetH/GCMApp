@@ -6,6 +6,7 @@ I will use the datas stored on BigQuery (Google Clood Platform) https://cloud.go
 For the analyse i use NEO4J GRAPH and ALGORYTHMS.
 
 These topics here are as follows:
+
 -Cleaning and wrangling datas with bigquery
 -Import datas in Neo4j GraphDatabase
 -Recommendation engine with cypher
