@@ -5,7 +5,7 @@ That is why I rethink the work and decide a new challenge: Investigate github ar
 I will use the datas stored on BigQuery (Google Clood Platform) https://cloud.google.com/bigquery/public-data/github.
 For the analyse i use NEO4J GRAPH and ALGORITHMS.
 
-These topics here are as follows:
+The topics here are as follows:
 
 1-Cleaning and wrangling datas with bigquery
 
