@@ -7,9 +7,9 @@ For the analyse i use NEO4J GRAPH and ALGORYTHMS.
 
 These topics here are as follows:
 
--Cleaning and wrangling datas with bigquery
--Import datas in Neo4j GraphDatabase
--Recommendation engine with cypher
--Network Analysis with graph algorithms
+1-Cleaning and wrangling datas with bigquery
+2-Import datas in Neo4j GraphDatabase
+3-Recommendation engine with cypher
+4-Network Analysis with graph algorithms
 
 
