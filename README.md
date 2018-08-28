@@ -18,8 +18,6 @@ For the analyse i use NEO4J GRAPH and ALGORITHMS.
 5-Vizualisation
 
 
-The architecture of the application is :
-
-GCMApp/ARCHI_GCMA.png 
+The architecture of the application is : https://github.com/AnicetH/GCMApp/blob/master/ARCHI_GCMA.png
 
 
