@@ -18,3 +18,8 @@ For the analyse i use NEO4J GRAPH and ALGORITHMS.
 5-Vizualisation
 
 
+The architecture of the application is :
+
+GCMApp/ARCHI_GCMA.png 
+
+
