@@ -1,0 +1,41 @@
+The problem of rows data stored in Nosql database is that they are never ready to use data. It always miss some that we need to replace and other which need to be cleaned.
+
+First of all, we will remove no need value and special string which are not supported by a graph database.
+This is possible on BigQuery with regexp fonction.
+
+Otherwise, when we get a look to our original data's schema https://github.com/AnicetH/GCMApp/blob/master/BIGQUERY/DATA%20SCHEMA.doc, 
+we miss in the columns some value like actor name or actor location, language, etc ...
+These informations are in Json format in the payload and other column.
+we could held this by extracting the data using Json_extract and Replace function. Let's go ahead with the following example:
+
+*********************-------------> PushEvent query<------------------------------------------------------
+
+SELECT  actor.login, 
+regexp_replace(ifnull(replace( JSON_EXTRACT(other, '$.actor_attributes.name'),'\"', '') ,ifnull(replace( JSON_EXTRACT(payload, '$.shas[0][3]'),'\"', '') ,"-" )), r'[\;\,\\]|^$', '-')  as actor.name,
+regexp_replace(ifnull(replace( JSON_EXTRACT(other, '$.actor_attributes.location'),'\"', '') ,"-" ), r'[\;\,\\]|^$', '-')  as actor.location,
+type ,
+created_at,
+regexp_replace(ifnull(replace( JSON_EXTRACT(payload, '$.shas[0][0]'),'\"', '') ,"-" ), r'[\;\,\\]|^$', '-')  as commit.id,
+regexp_replace(ifnull(replace( JSON_EXTRACT(payload, '$.shas[0][3]'),'\"', '') ,"-" ), r'[\;\,\\]|^$', '-')  as committer.name,
+repo.name  ,
+regexp_replace(ifnull(replace( JSON_EXTRACT(other, '$.repository.description'),'\"', '') ,"-" ), r'[\;\,\\]|^$', '-')  as repo.description,
+regexp_replace(ifnull(org.login,"-" ), r'[\;\,\\]|^$', '-')  as organisation ,
+regexp_replace(ifnull(replace( JSON_EXTRACT(other, '$.repository.language'),'\"', '') ,"-" ), r'[\;\,\\]|^$', '-')  as language,
+#regexp_replace(ifnull(replace( JSON_EXTRACT(payload, '$.pull_request.base.repo.language'),'\"', '') ,"-" ), r'[\;\,\\]|^$', '-')  as language,
+
+FROM 
+ [githubarchive:month.201209],
+ [githubarchive:month.201210],
+ [githubarchive:month.201211],
+ #[githubarchive:month.201209],
+ #[githubarchive:month.201210],
+ #[githubarchive:month.201206],
+ 
+  
+
+WHERE  repo.name !="/" 
+AND repo.name !="null"
+AND repo.name !=" "
+AND actor.login !=" "
+AND actor.login !="null"
+AND type IN ('PushEvent')
