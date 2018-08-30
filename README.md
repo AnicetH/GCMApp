@@ -7,7 +7,7 @@ For the analyse i use NEO4J GRAPH and ALGORITHMS.
 
 #The topics here are as follows:
 
-1-Cleaning and wrangling datas with bigquery
+1-Cleaning and wrangling datas with bigquery --> https://github.com/AnicetH/GCMApp/tree/master/BIGQUERY
 
 2-Import datas in Neo4j GraphDatabase
 
