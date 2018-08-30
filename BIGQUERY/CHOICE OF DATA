@@ -1,6 +1,6 @@
 The githubarchive on BIGQUERY need to be extracted and cleaned for analyse. We will extract by Event.
 
-So we need to choose the most relevent.
+So we need to choose the most relevant with a simple query.
 
 
 SELECT  type , count(*) cType,COUNT(DISTINCT actor.id) authors
