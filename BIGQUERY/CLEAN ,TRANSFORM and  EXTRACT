@@ -1,10 +1,11 @@
-The problem of rows data stored in Nosql database is that they are never ready to use data. It always miss some that we need to replace and other which need to be cleaned.
+The problem of rows data stored in Nosql database is that they are never ready to use data. It always miss some that we need to replace
+and other which need to be cleaned.
 
 First of all, we will remove no need value and special string which are not supported by a graph database.
 This is possible on BigQuery with regexp fonction.
 
 Otherwise, when we get a look to our original data's schema https://github.com/AnicetH/GCMApp/blob/master/BIGQUERY/DATA%20SCHEMA.doc, 
-we miss in the columns some value like actor name or actor location, language, etc ...
+We miss in the columns some value like actor name or actor location, language, etc ...
 These informations are in Json format in the payload and other column.
 we could held this by extracting the data using Json_extract and Replace function. Let's go ahead with the following examples:
 
