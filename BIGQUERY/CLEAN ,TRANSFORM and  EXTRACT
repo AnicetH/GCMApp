@@ -6,7 +6,7 @@ This is possible on BigQuery with regexp fonction.
 Otherwise, when we get a look to our original data's schema https://github.com/AnicetH/GCMApp/blob/master/BIGQUERY/DATA%20SCHEMA.doc, 
 we miss in the columns some value like actor name or actor location, language, etc ...
 These informations are in Json format in the payload and other column.
-we could held this by extracting the data using Json_extract and Replace function. Let's go ahead with the following example:
+we could held this by extracting the data using Json_extract and Replace function. Let's go ahead with the following examples:
 
 *********************-------------> PushEvent query<------------------------------------------------------
 
@@ -35,3 +35,54 @@ AND repo.name !=" "
 AND actor.login !=" "
 AND actor.login !="null"
 AND type IN ('PushEvent')
+
+
+*********************-------------> PullRequestEvent query<------------------------------------------------------
+
+SELECT  actor.login, 
+type ,
+created_at,
+regexp_replace(ifnull(replace( JSON_EXTRACT(payload, '$.action'),'\"', '') ,"-" ), r'[\;\,\\]|^$', '-')  as action,
+repo.name  ,
+regexp_replace(ifnull(replace( JSON_EXTRACT(payload, '$.pull_request.base.repo.language'),'\"', '') ,"-" ), r'[\;\,\\]|^$', '-')  as language,
+
+FROM 
+[githubarchive:month.201102],
+[githubarchive:month.201103],
+[githubarchive:month.201104],
+[githubarchive:month.201105],
+[githubarchive:month.201106],
+[githubarchive:month.201201],
+[githubarchive:month.201202],
+[githubarchive:month.201203],
+ 
+
+WHERE  repo.name !="/" 
+AND repo.name !="null"
+AND repo.name !=" "
+AND actor.login !=" "
+AND actor.login !="null"
+AND type IN ('PullRequestEvent')
+
+
+*********************-------------> CreateEvent query<------------------------------------------------------
+
+SELECT  actor.login, type ,created_at,repo.name  ,
+regexp_replace(ifnull(org.login,actor.login  ), r'[\;\,\\]|^$', '-')  as organisation ,
+regexp_replace(ifnull(replace( JSON_EXTRACT(other, '$.repository.language'),'\"', '') ,"-" ), r'[\;\,\\]|^$', '-')  as language,
+
+FROM 
+#[githubarchive:year.2011],
+[githubarchive:month.201201],
+[githubarchive:month.201202],
+[githubarchive:month.201203],
+
+WHERE  repo.name !="/" 
+AND repo.name !="null"
+AND repo.name !=" "
+AND actor.login !=" "
+AND actor.login !="null"
+AND type IN ('CreateEvent')
+
+
+That is the way we clean and transform the data before load it to the NEO4J GraphDatabase
