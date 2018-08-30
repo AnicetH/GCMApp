@@ -21,16 +21,12 @@ repo.name  ,
 regexp_replace(ifnull(replace( JSON_EXTRACT(other, '$.repository.description'),'\"', '') ,"-" ), r'[\;\,\\]|^$', '-')  as repo.description,
 regexp_replace(ifnull(org.login,"-" ), r'[\;\,\\]|^$', '-')  as organisation ,
 regexp_replace(ifnull(replace( JSON_EXTRACT(other, '$.repository.language'),'\"', '') ,"-" ), r'[\;\,\\]|^$', '-')  as language,
-#regexp_replace(ifnull(replace( JSON_EXTRACT(payload, '$.pull_request.base.repo.language'),'\"', '') ,"-" ), r'[\;\,\\]|^$', '-')  as language,
 
 FROM 
  [githubarchive:month.201209],
  [githubarchive:month.201210],
  [githubarchive:month.201211],
- #[githubarchive:month.201209],
- #[githubarchive:month.201210],
- #[githubarchive:month.201206],
- 
+
   
 
 WHERE  repo.name !="/" 
