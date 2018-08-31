@@ -8,6 +8,8 @@ Extracted and transformed data from Bigquery are stored on Cloud Storage (Google
 The datas is about Github and users events.
 The users can make events with repositories. We will choose only 8 events (CreateEvent, WatchEvent, IssuesEvent, IssueCommentEvent, PullRequestEvent, ForkEvent, PullRequestReviewCommentEvent, CommitCommentEvent). 
 So we will create 8 relationships between users and repositories.
+
 For the recommendation engine, we need to know the skills of the users and they link to repositories.
 We also need to know for our analysis who owns the repositories and their License.
+
 Taking into account all this, we can build a data model as follow --> https://github.com/AnicetH/GCMApp/blob/master/NEO4J/Data%20Model.png
