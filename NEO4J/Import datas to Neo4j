@@ -1,1 +1,37 @@
+The transformed datasets are stored on Cloud Storage for importaion.
+Before we start importing, go to Neo4j Browser and create the following index:
 
+CREATE INDEX ON :Repo(repo_name);
+CREATE INDEX ON :User(actor_login);
+CREATE INDEX ON :Orga(organisation);
+CREATE INDEX ON :Lang(language);
+CREATE INDEX ON :License(license);
+
+Then, we will use the browser to import datas with cypher query to create data nodes according to the model.
+
+****** NODES 	CSV import **************************
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/neoapp/Users1.csv" AS row 
+FIELDTERMINATOR ","
+MERGE (u:User{ actor_login: row.actor_login}) ON CREATE SET u.actor_name= row.actor_name,u.actor_location= row.actor_location
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/neoapp/Repos1.csv" AS row 
+FIELDTERMINATOR ","
+MERGE (r:Repo { repo_name: row.repo_name}) 
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/neoapp/License.csv" AS row 
+FIELDTERMINATOR ","
+MERGE (li:License {license: row.license})
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/neoapp/Owners1.csv" AS row 
+FIELDTERMINATOR ","
+MERGE (o:Orga {organisation: row.organisation}) 
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/neoapp/Languages.csv" AS row 
+FIELDTERMINATOR ","
+MERGE (l:Lang { language: row.language})
