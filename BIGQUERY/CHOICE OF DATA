@@ -39,4 +39,5 @@ Row	type
 12	CommitCommentEvent
 13	ReleaseEvent
 
-We will work on 8 events as follow: CreateEvent, WatchEvent, IssuesEvent, IssueCommentEvent, PullRequestEvent, ForkEvent, PullRequestReviewCommentEvent, CommitCommentEvent
+We will work on 8 events as follow: 
+CreateEvent, WatchEvent, IssuesEvent, IssueCommentEvent, PullRequestEvent, ForkEvent, PullRequestReviewCommentEvent, CommitCommentEvent
