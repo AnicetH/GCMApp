@@ -35,3 +35,97 @@ USING PERIODIC COMMIT
 LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/neoapp/Languages.csv" AS row 
 FIELDTERMINATOR ","
 MERGE (l:Lang { language: row.language})
+
+
+
+***************************************************************************************************
+******CREATE NON EVENTS RELATIONSHIPS *************************************************************
+***************************************************************************************************
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/neoapp/LicenseRepos.csv" AS row 
+MATCH (re:Repo{repo_name: row.repo_name})
+MATCH (li:License{license: row.license})
+MERGE (re)-[r:HAS_LICENSE]->(li) 
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/neoapp/UsersOwn1.csv" AS row 
+MATCH (user:User{actor_login: row.actor_login})
+MATCH (o:Orga{organisation: row.organisation})
+MERGE (user)-[r:WORK_FOR]->(o)
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/neoapp/ReposOwn1.csv" AS row 
+MATCH (o:Orga{organisation: row.organisation})
+MATCH (re:Repo{repo_name: row.repo_name})
+MERGE (o)-[r:OWN]->(re)
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/neoapp/Lang1.csv" AS row 
+MATCH (user:User{actor_login: row.actor_login})
+MATCH (l:Lang{ language: row.language})
+MERGE (user)-[r:HAS_SKILLS]->(l) 
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/neoapp/Lang1.csv" AS row 
+MATCH (l:Lang{ language: row.language})
+MATCH (re:Repo{repo_name: row.repo_name})
+MERGE (l)-[r:USED_FOR]->(re) 
+
+
+***************************************************************************************************
+****** CREATE EVENTS RELATIONS ********************************************************************
+***************************************************************************************************
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/gcmapp/CommitComments4.csv" AS row 
+MATCH (user:User{actor_login: row.actor_login})
+MATCH (re:Repo{repo_name: row.repo_name})
+MERGE (user)-[r:COMMIT_CMT]->(re) on CREATE set r.created_at=row.created_at
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/neoapp/Forkers1.csv" AS row 
+MATCH (user:User{actor_login: row.actor_login})
+MATCH (re:Repo{repo_name: row.repo_name})
+MERGE (user)-[r:FORK]->(re) on CREATE set r.created_at=row.created_at
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/neoapp/WatchEvent1.csv" AS row 
+MATCH (user:User{actor_login: row.actor_login})
+MATCH (re:Repo{repo_name: row.repo_name})
+MERGE (user)-[r:WATCH]->(re) on CREATE set r.created_at=row.created_at
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/neoapp/PullReq1.csv" AS row 
+MATCH (user:User{actor_login: row.actor_login})
+MATCH (re:Repo{repo_name: row.repo_name})
+MERGE (user)-[r:PULL_REQ]->(re) on CREATE set r.created_at=row.created_at
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/neoapp/PullReview1.csv" AS row 
+MATCH (user:User{actor_login: row.actor_login})
+MATCH (re:Repo{repo_name: row.repo_name})
+MERGE (user)-[r:PULL_COMMENT]->(re) on CREATE set r.created_at=row.created_at
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/neoapp/CommitComment1.csv" AS row 
+MATCH (user:User{actor_login: row.actor_login})
+MATCH (re:Repo{repo_name: row.repo_name})
+MERGE (user)-[r:COMMIT_COMMENT]->(re) on CREATE set r.created_at=row.created_at
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/neoapp/IssueComment1.csv" AS row 
+MATCH (user:User{actor_login: row.actor_login})
+MATCH (re:Repo{repo_name: row.repo_name})
+MERGE (user)-[r:ISSUE_COMMENT]->(re) on CREATE set r.created_at=row.created_at
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/neoapp/Issues1.csv" AS row 
+MATCH (user:User{actor_login: row.actor_login})
+MATCH (re:Repo{repo_name: row.repo_name})
+MERGE (user)-[i:ISSUES]->(re) on CREATE set i.created_at=row.created_at
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/neoapp/Create1.csv" AS row 
+MATCH (user:User{actor_login: row.actor_login})
+MATCH (re:Repo{repo_name: row.repo_name})
+MERGE (user)-[c:CREATE]->(re) on CREATE set c.created_at=row.created_at
