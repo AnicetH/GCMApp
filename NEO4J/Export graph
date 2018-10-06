@@ -1,0 +1,8 @@
+#Subgraph for Marseille and Paris
+
+call apoc.export.graphml.query("match p=(u:User)-->(r:Repo)<--(l:Lang) where u.actor_location = 'Marseille' return p","D:/Neo4jExp/mrs.graphml",{})
+call apoc.export.graphml.query("match p=(u:User)-->(r:Repo)<--(l:Lang) where u.actor_location = 'Paris' return p","D:/Neo4jExp/paris.graphml",{})
+
+#All CommitComment graph worldwide
+
+call apoc.export.graphml.query("match p=(u:User)-[:COMMIT_COMMENT]->(r:Repo) return p","D:/Neo4jExp/commitC.graphml",{storeNodeIds:true, readLabels:true,useTypes:true})
