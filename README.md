@@ -13,9 +13,9 @@ For the analyse i use NEO4J GRAPH and ALGORITHMS.
 
 3-Recommendation engine with cypher
 
-4-Network Analysis with graph algorithms
+4-Network Analysiswith graph algorithms
 
-5-Vizualisation
+5-Vizualisation with GEPHI
 
 
 # The architecture of the application should be : 
