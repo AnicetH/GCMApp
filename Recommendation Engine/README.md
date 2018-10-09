@@ -1,6 +1,6 @@
-#2 ways to handle recommendation with Neo4J:
+# 2 ways to handle recommendation with Neo4J:
  
- Content-based filtering:
+# Content-based filtering:
  
  // Find similar repositories to "symphony" by common language 
 MATCH (r:Repo)<-[:USED_FOR]-(l:Lang)-[:USED_FOR]->(rec:Repo)
