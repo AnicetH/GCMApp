@@ -9,7 +9,7 @@ WHERE r.repo_name = "symphony"
 WITH rec as Recommend, COLLECT(l.language) AS Language, COUNT(*) AS NberCommonLang
 RETURN Recommend.repo_name, Language, NberCommonLang
 ORDER BY NberCommonLang DESC LIMIT 10;
-
+#
 
 
 // // Personalized Content recommendation by overlapping Language
@@ -21,7 +21,7 @@ WITH rec, [l.language, COUNT(*)] AS scores,
 RETURN rec.repo_name AS recommendation, COLLECT(scores) AS scoreComponents,
 REDUCE (s=0,x in COLLECT(scores) | s+x[1]) AS score
 ORDER BY score DESC LIMIT 10
-
+#
 
 
 // // Find similar repositories by common Language with weight
@@ -39,7 +39,7 @@ WITH r, rec, langs, watchers, COUNT(f) AS forkers
 
 RETURN rec.repo_name AS recommendation, (5*langs)+(3*watchers)+(4*forkers) AS score ORDER BY score DESC LIMIT 5
 
-
+#
 
 // Find similar repo to "symphony" using jaccard index 
 
