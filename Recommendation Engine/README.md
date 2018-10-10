@@ -75,3 +75,17 @@ RETURN r.repo_name, other.repo_name, s1,s2,((1.0*intersection)/SIZE(union)) AS j
 
 
 # Collaborative filtering:
+
+// Simple collaborative filtering
+
+MATCH (u:User {actor_name: "Sanchez Eric"})-[:FORK]->(r:Repo)<-[:FORK]-(o:User)
+
+MATCH (o)-[:FORK]->(rec:Repo)
+
+WHERE NOT EXISTS( (u)-[:FORK]->(rec) )
+
+RETURN rec.repo_name
+LIMIT 25
+
+*****************************
+
