@@ -11,6 +11,7 @@ RETURN Recommend.repo_name, Language, NberCommonLang
 ORDER BY NberCommonLang DESC LIMIT 10;
 
 
+
 // // Personalized Content recommendation by overlapping Language
 
 MATCH (u:User {actor_name: "Sanchez Eric"})-[f:FORK]->(r:Repo),
@@ -20,6 +21,7 @@ WITH rec, [l.language, COUNT(*)] AS scores,
 RETURN rec.repo_name AS recommendation, COLLECT(scores) AS scoreComponents,
 REDUCE (s=0,x in COLLECT(scores) | s+x[1]) AS score
 ORDER BY score DESC LIMIT 10
+
 
 
 // // Find similar repositories by common Language with weight
@@ -36,3 +38,5 @@ OPTIONAL MATCH (r)<-[:FORK]-(f:User)-[:FORK]->(rec)
 WITH r, rec, langs, watchers, COUNT(f) AS forkers
 
 RETURN rec.repo_name AS recommendation, (5*langs)+(3*watchers)+(4*forkers) AS score ORDER BY score DESC LIMIT 5
+
+
