@@ -40,3 +40,4 @@ WITH r, rec, langs, watchers, COUNT(f) AS forkers
 RETURN rec.repo_name AS recommendation, (5*langs)+(3*watchers)+(4*forkers) AS score ORDER BY score DESC LIMIT 5
 
 
+# Collaborative filtering:
