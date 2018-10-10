@@ -40,4 +40,21 @@ WITH r, rec, langs, watchers, COUNT(f) AS forkers
 RETURN rec.repo_name AS recommendation, (5*langs)+(3*watchers)+(4*forkers) AS score ORDER BY score DESC LIMIT 5
 
 
+
+// Find similar repo to "symphony" using jaccard index 
+
+MATCH (r:Repo {repo_name: "symphony"})<-[:USED_FOR]-(l:Lang)-[:USED_FOR]->(other:Repo)
+WITH r, other, COUNT(l) AS intersection, COLLECT(l.language) AS i
+MATCH (r)<-[:USED_FOR]-(rl:Lang)
+WITH r,other, intersection,i, COLLECT(rl.language) AS s1
+MATCH (other)<-[:USED_FOR]-(ol:Lang)
+WITH r,other,intersection,i, s1, COLLECT(ol.language) AS s2
+
+WITH r,other,intersection,s1,s2
+
+WITH r,other,intersection,s1+filter(x IN s2 WHERE NOT x IN s1) AS union, s1, s2
+
+RETURN r.repo_name, other.repo_name, s1,s2,((1.0*intersection)/SIZE(union)) AS jaccard ORDER BY jaccard DESC LIMIT 10
+
+
 # Collaborative filtering:
