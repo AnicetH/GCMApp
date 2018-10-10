@@ -2,17 +2,18 @@
  
 # Content-based filtering:
  
- // // Find similar repositories to "symphony" by common language 
+ // Find similar repositories to "symphony" by common language 
  
 MATCH (r:Repo)<-[:USED_FOR]-(l:Lang)-[:USED_FOR]->(rec:Repo)
 WHERE r.repo_name = "symphony"
 WITH rec as Recommend, COLLECT(l.language) AS Language, COUNT(*) AS NberCommonLang
 RETURN Recommend.repo_name, Language, NberCommonLang
 ORDER BY NberCommonLang DESC LIMIT 10;
-//********
+
+***************************
 
 
-// // Personalized Content recommendation by overlapping Language
+// Personalized Content recommendation by overlapping Language
 
 MATCH (u:User {actor_name: "Sanchez Eric"})-[f:FORK]->(r:Repo),
   (r)<-[:USED_FOR]-(l:Lang)-[:USED_FOR]->(rec:Repo)
@@ -21,10 +22,11 @@ WITH rec, [l.language, COUNT(*)] AS scores,
 RETURN rec.repo_name AS recommendation, COLLECT(scores) AS scoreComponents,
 REDUCE (s=0,x in COLLECT(scores) | s+x[1]) AS score
 ORDER BY score DESC LIMIT 10
-//**********
+
+****************************
 
 
-// // Find similar repositories by common Language with weight
+// Find similar repositories by common Language with weight
 
 MATCH (r:Repo) WHERE r.repo_name = "symphony"
 MATCH (r)<-[:USED_FOR]-(l:Lang)-[:USED_FOR]->(rec:Repo)
@@ -39,7 +41,7 @@ WITH r, rec, langs, watchers, COUNT(f) AS forkers
 
 RETURN rec.repo_name AS recommendation, (5*langs)+(3*watchers)+(4*forkers) AS score ORDER BY score DESC LIMIT 5
 
-//***********
+*****************************
 
 // Find similar repo to "symphony" using jaccard index 
 
@@ -55,6 +57,8 @@ WITH r,other,intersection,s1,s2
 WITH r,other,intersection,s1+filter(x IN s2 WHERE NOT x IN s1) AS union, s1, s2
 
 RETURN r.repo_name, other.repo_name, s1,s2,((1.0*intersection)/SIZE(union)) AS jaccard ORDER BY jaccard DESC LIMIT 10
+
+******************************
 
 
 # Collaborative filtering:
